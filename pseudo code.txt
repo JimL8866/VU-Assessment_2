@@ -2,10 +2,11 @@ version1:
 display App welcome message
 
 add
- fsadsa
- asdf
- asdf
- asf
+ get username
+ get password
+ get url
+ encrypt
+ store
  
  view_data
    dsaf
