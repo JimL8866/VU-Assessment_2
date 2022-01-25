@@ -1,15 +1,38 @@
 version1:
-1. App welcome message
-2. Create App menu in a while loop display 3 options:
-   a. if user choose option 1: store data: "username, password, url"
-      those data will store in a text file by using rot3 encryption
+display App welcome message
+
+add
+ fsadsa
+ asdf
+ asdf
+ asf
+ 
+ view_data
+   dsaf
+   asdf
+
+
+while user wants to continue
+   if user choose option 1: 
+      call add function
+   if user choose option 2:
+      view data
+   if user choose option 3: 
+      exit the program 
+   
+   
+ 
+ 
+ 
+ 
+ d. use try expect catching "erro" if user choose other option
+ 3. inlcude comments to code to explain
+
+
+those data will store in a text file by using rot3 encryption
         if text file not exist then create a file
         using "a" mode to append file not overwite 
         data need to store in a formated way
-   b. if user choose option 2: display those data back with un-encrypted
-   c. if user choose option 3: exit the program 
-   d. use try expect catching "erro" if user choose other option
- 3. inlcude comments to code to explain
 
 
 version2:
