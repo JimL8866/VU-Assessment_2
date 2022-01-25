@@ -1,19 +1,19 @@
 DISPLAY welcome message
-FUNCTION menu
+DEFINE FUNCTION menu
   TRY
     PROMPT for option 1, 2,3
     IF user choose 1
       CALL func record_info
-    ELIF user choose 2
+    ELSEIF user choose 2
       CALL func view_info
-    ELIF user choose 3
+    ELSEIF user choose 3
       EXIT app
-    ELIF user put in other number
+    ELSEIF user put in other number
       DISPLAY error message
   EXCEPT
     DISPLAY error message if user put in characters
 
-FUNCTION record_info
+DEFINE FUNCTION record_info
   GET username
   GET password
   GET url
@@ -21,7 +21,7 @@ FUNCTION record_info
   Encrypting data
   Create text file and store informaiton
 
-FUNCTION view_info
+DEFINE FUNCTION view_info
   Open file
   Read data
   FOR loop for extracting individual data
