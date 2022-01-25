@@ -31,7 +31,7 @@ def record_info():
 
     username = input("What's your username?\n")
     password = input("What's your password?\n")
-    url = input("What is your url\n")
+    url = input("What is the url you want to save?\n")
     print("Thank you. Your information will be saved securely.")
 
     # use ROT3 for encrypting user data
