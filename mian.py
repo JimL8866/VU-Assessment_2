@@ -74,7 +74,6 @@ def view_info():
     if os.path.exists("userInformation.txt") and os.stat("userInformation.txt").st_size !=0: # check if userInformation.txt file exist and not empty
         with open("userInformation.txt") as info:
             contents = info.readlines()
-            print(contents)
             print(f"{'USERNAME':<20}{'PASSWORD':<20}{'URL':<20}")  # create a heading
 
             # use while loop to extract data accoring to format sequence : username, passowrd, url 
