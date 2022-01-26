@@ -1,3 +1,16 @@
+#Looks great Jim.
+#Fully test the program, including attempting to view the file when the program
+#is run for the very first time. Delete 'User Information. txt' to test that.
+#Also, suggest to remove spaces from 'User Information. txt', to maintain compatibility.
+#Provide commenting for how the script section for encryption/decrytpion works
+#This will help anyone that is maintaining your code, including yourself in say 12 months
+#when you have forgotten how it works.
+#If you have time consider how you may accomodate a user entering a password that has a
+#> greater than sign in it. e.g   my>password
+#> will be encrypted to a comma, which will create issues when using .split(",")
+#your script is sufficient without fixing that, but its something for you to think about.
+#Its also something that should have become apparent when you were testing your script.
+
 # global constant
 CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*()_-=|\}]{[\"':;?/>.<, "
 
