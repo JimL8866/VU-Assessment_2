@@ -11,6 +11,9 @@
 #your script is sufficient without fixing that, but its something for you to think about.
 #Its also something that should have become apparent when you were testing your script.
 
+
+#import os module 
+import os
 # global constant
 CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*()_-=|\}]{[\"':;?/>.<, "
 
@@ -30,6 +33,7 @@ def menu():
             record_info()  # call record_info function
         elif int(user_choice) == 2:
             view_info()  # call view_info function
+
         elif int(user_choice) == 3:
             print("Thanks for using DigiCore Password Manager APP! See you soon.")
             exit()  # exist program
@@ -37,7 +41,7 @@ def menu():
             print("Don't put other numbers.Please choose 1, 2 or 3 only!")
     except ValueError:  # if user put in characters or words will print out error message
         print("Don't put characters or words.Please choose 1, 2 or 3 only!")
-
+    
 
 def record_info():
     """" ask user for information and store it in a text file"""
@@ -47,32 +51,50 @@ def record_info():
     url = input("What is the url you want to save?\n")
     print("Thank you. Your information will be saved securely.")
 
-    # use ROT3 for encrypting user data
-    enc_username = "".join([CHARSET[(CHARSET.find(c) + 3) % 95] for c in username])
-    enc_password = "".join([CHARSET[(CHARSET.find(c) + 3) % 95] for c in password])
-    enc_url = "".join([CHARSET[(CHARSET.find(c) + 3) % 95] for c in url])
+    """
+     use ROT3 for encrypting user data:
+     This is a list comprehension.
+     Extract each character in username.
+     Then use find method find the position in CHARSET. 
+     Then Add position with 3 to see if can mod 94 for repeat.
+     if not repeat use indexing to get the character list
+     Finally use empty string and join method to make a one string.
+     """
+    enc_username = "".join([CHARSET[(CHARSET.find(c) + 3) % 94] for c in username])
+    enc_password = "".join([CHARSET[(CHARSET.find(c) + 3) % 94] for c in password])
+    enc_url = "".join([CHARSET[(CHARSET.find(c) + 3) % 94] for c in url])
 
-    # create a text file to store user encrypted data separated by comma
-    with open("User Information. txt", "a") as file:
-        file.write(f"{enc_username},{enc_password},{enc_url}\n")
+    # create a text file to store user encrypted data each line
+    with open("userInformation.txt", "a") as file:
+        file.write(f"{enc_username}\n{enc_password}\n{enc_url}\n")
 
 
 def view_info():
     """"read text file and display un-encrypted user information in a presentable way"""
+    if os.path.exists("userInformation.txt") and os.stat("userInformation.txt").st_size !=0: # check if userInformation.txt file exist and not empty
+        with open("userInformation.txt") as info:
+            contents = info.readlines()
+            print(contents)
+            print(f"{'USERNAME':<20}{'PASSWORD':<20}{'URL':<20}")  # create a heading
 
-    with open("User Information. txt") as info:
-        contents = info.readlines()
-        print(contents)
-        print(f"{'USERNAME':<20}{'PASSWORD':<20}{'URL':<20}")  # create a heading
-        for user_content in contents:
-            username_encrypted = user_content.split(",")[0]  # split string to a list and choose relevant index
-            password_encrypted = user_content.split(",")[1]
-            url_encrypted = user_content.split(",")[2].strip()  # dispose the last newline character
-            unenc_username = "".join([CHARSET[(CHARSET.find(c) - 3) % 95] for c in username_encrypted])
-            unenc_password = "".join([CHARSET[(CHARSET.find(c) - 3) % 95] for c in password_encrypted])
-            unenc_url = "".join([CHARSET[(CHARSET.find(c) - 3) % 95] for c in url_encrypted])
-            print(f"{unenc_username:<20}{unenc_password:<20}{unenc_url:<20}")
+            # use while loop to extract data accoring to format sequence : username, passowrd, url 
+            num=0
+            while num < len(contents):
+                username_encrypted = contents[num].strip()
+                password_encrypted = contents[num + 1].strip()
+                url_encrypted = contents[num + 2].strip()
+                num += 3
 
+                # unencrypted data similar with encryption 
+                unenc_username = "".join([CHARSET[(CHARSET.find(c) - 3) % 94] for c in username_encrypted])
+                unenc_password = "".join([CHARSET[(CHARSET.find(c) - 3) % 94] for c in password_encrypted])
+                unenc_url = "".join([CHARSET[(CHARSET.find(c) - 3) % 94] for c in url_encrypted])
+                print(f"{unenc_username:<20}{unenc_password:<20}{unenc_url:<20}")
+
+    else:  # if file not exist will create userInformation.txt file and if file is empty will prompt user to add info
+        print('There is nothing to view. Please store some information by pressing "1".')
+        new_file = open("userInformation.txt", "w")
+        new_file.close()
 
 # run in a while loop until user want to quit by choosing option 3
 while True:
