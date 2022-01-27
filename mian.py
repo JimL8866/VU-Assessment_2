@@ -15,7 +15,7 @@
 #import os module 
 import os
 # global constant
-CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*()_-=|\}]{[\\\"':;?/>.<, " 
+CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*+()_-=|\}]{[\\\"':;?/>.<, " 
 
 # print APP welcome message
 print("Hello, Welcome to DigiCore Password Manager APP!")
