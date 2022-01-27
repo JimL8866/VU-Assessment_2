@@ -15,7 +15,7 @@
 #import os module 
 import os
 # global constant
-CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*()_-=|\}]{[\"':;?/>.<, "
+CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*()_-=|\}]{[\\\"':;?/>.<, " 
 
 # print APP welcome message
 print("Hello, Welcome to DigiCore Password Manager APP!")
@@ -60,9 +60,9 @@ def record_info():
      if not repeat use indexing to get the character list
      Finally use empty string and join method to make a one string.
      """
-    enc_username = "".join([CHARSET[(CHARSET.find(c) + 3) % 94] for c in username])
-    enc_password = "".join([CHARSET[(CHARSET.find(c) + 3) % 94] for c in password])
-    enc_url = "".join([CHARSET[(CHARSET.find(c) + 3) % 94] for c in url])
+    enc_username = "".join([CHARSET[(CHARSET.find(c) + 3) % 95] for c in username])
+    enc_password = "".join([CHARSET[(CHARSET.find(c) + 3) % 95] for c in password])
+    enc_url = "".join([CHARSET[(CHARSET.find(c) + 3) % 95] for c in url])
 
     # create a text file to store user encrypted data each line
     with open("userInformation.txt", "a") as file:
@@ -71,27 +71,32 @@ def record_info():
 
 def view_info():
     """"read text file and display un-encrypted user information in a presentable way"""
-    if os.path.exists("userInformation.txt") and os.stat("userInformation.txt").st_size !=0: # check if userInformation.txt file exist and not empty
+    if os.path.exists("userInformation.txt") and os.stat("userInformation.txt").st_size > 0: # check if userInformation.txt file exist and not empty
         with open("userInformation.txt") as info:
             contents = info.readlines()
-            print(f"{'USERNAME':<20}{'PASSWORD':<20}{'URL':<20}")  # create a heading
+            
+            if len(contents) % 3 == 0: 
+                print(f"{'USERNAME':<20}{'PASSWORD':<20}{'URL':<20}")  # create a heading
 
-            # use while loop to extract data accoring to format sequence : username, passowrd, url 
-            num=0
-            while num < len(contents):
-                username_encrypted = contents[num].strip()
-                password_encrypted = contents[num + 1].strip()
-                url_encrypted = contents[num + 2].strip()
-                num += 3
+                # use while loop to extract data accoring to format sequence : username, passowrd, url 
+                num=0
+                while num < len(contents):
+                    username_encrypted = contents[num].strip("\n")  # strip "\n" so will not remove space character if user input space character
+                    password_encrypted = contents[num + 1].strip("\n")
+                    url_encrypted = contents[num + 2].strip("\n")
+                    num += 3
 
-                # unencrypted data similar with encryption 
-                unenc_username = "".join([CHARSET[(CHARSET.find(c) - 3) % 94] for c in username_encrypted])
-                unenc_password = "".join([CHARSET[(CHARSET.find(c) - 3) % 94] for c in password_encrypted])
-                unenc_url = "".join([CHARSET[(CHARSET.find(c) - 3) % 94] for c in url_encrypted])
-                print(f"{unenc_username:<20}{unenc_password:<20}{unenc_url:<20}")
+                    # unencrypted data similar with encryption 
+                    unenc_username = "".join([CHARSET[(CHARSET.find(c) - 3) % 95] for c in username_encrypted])
+                    unenc_password = "".join([CHARSET[(CHARSET.find(c) - 3) % 95] for c in password_encrypted])
+                    unenc_url = "".join([CHARSET[(CHARSET.find(c) - 3) % 95] for c in url_encrypted])
+                    print(f"{unenc_username:<20}{unenc_password:<20}{unenc_url:<20}")
+            else:
+                print("Please remove any empty lines in userInformation.txt if this is your first time starting the APP.\n"
+                      "Or You deleted some data in that file. Try to use previous one.")
 
     else:  # if file not exist will create userInformation.txt file and if file is empty will prompt user to add info
-        print('There is nothing to view. Please store some information by pressing "1".')
+        print('There is nothing to view at the moment. Please store some information by pressing "1".')
         new_file = open("userInformation.txt", "w")
         new_file.close()
 
