@@ -14,9 +14,10 @@
 
 #import os module 
 import os
-# global constant
+#import csv module 
+import csv
+# global constant, 95 printable ASCII characters
 CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*+()_-=|\}]{[\"':;?/>.<, " 
-print(len(CHARSET))
 
 # print APP welcome message
 print("Hello, Welcome to DigiCore Password Manager APP!")
@@ -65,40 +66,31 @@ def record_info():
     enc_password = "".join([CHARSET[(CHARSET.find(c) + 3) % 95] for c in password])
     enc_url = "".join([CHARSET[(CHARSET.find(c) + 3) % 95] for c in url])
 
-    # create a text file to store user encrypted data each line
-    with open("userInformation.txt", "a") as file:
-        file.write(f"{enc_username}\n{enc_password}\n{enc_url}\n")
+    # create a csv file to store user encrypted data in each line
+    with open("userInformation.csv", "a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([enc_username, enc_password, enc_url])
 
 
 def view_info():
-    """"read text file and display un-encrypted user information in a presentable way"""
-    if os.path.exists("userInformation.txt") and os.stat("userInformation.txt").st_size > 0: # check if userInformation.txt file exist and not empty
-        with open("userInformation.txt") as info:
-            contents = info.readlines()
-            
-            if len(contents) % 3 == 0: 
-                print(f"{'USERNAME':<20}{'PASSWORD':<20}{'URL':<20}")  # create a heading
-
-                # use while loop to extract data accoring to format sequence : username, passowrd, url 
-                num=0
-                while num < len(contents):
-                    username_encrypted = contents[num].strip("\n")  # strip "\n" so will not remove space character if user input space character
-                    password_encrypted = contents[num + 1].strip("\n")
-                    url_encrypted = contents[num + 2].strip("\n")
-                    num += 3
-
-                    # unencrypted data similar with encryption 
-                    unenc_username = "".join([CHARSET[(CHARSET.find(c) - 3) % 95] for c in username_encrypted])
-                    unenc_password = "".join([CHARSET[(CHARSET.find(c) - 3) % 95] for c in password_encrypted])
-                    unenc_url = "".join([CHARSET[(CHARSET.find(c) - 3) % 95] for c in url_encrypted])
+    """"read csv file and display un-encrypted user information in a presentable way"""
+    if os.path.exists("userInformation.csv") and os.stat("userInformation.csv").st_size > 0: # check if userInformation.csv file exist and not empty
+        
+        try:  # use try, except to catach error: empty lines at the beginning of the csv file
+            print(f"{'USERNAME':<20}{'PASSWORD':<20}{'URL':<20}")  # create a heading
+            with open("userInformation.csv", "r") as data:
+                user_info = csv.reader(data)
+                for info in user_info:   # each row is a list
+                    unenc_username = "".join([CHARSET[(CHARSET.find(c) - 3) % 95] for c in info[0]])
+                    unenc_password = "".join([CHARSET[(CHARSET.find(c) - 3) % 95] for c in info[1]])
+                    unenc_url = "".join([CHARSET[(CHARSET.find(c) - 3) % 95] for c in info[2]])
                     print(f"{unenc_username:<20}{unenc_password:<20}{unenc_url:<20}")
-            else:
-                print("Please remove any empty lines in userInformation.txt if this is your first time starting the APP.\n"
-                      "Or You deleted some data in that file. Try to use previous one.")
+        except IndexError:
+                print("Please remove all empty lines at the beginning of userInformation.csv.")
 
-    else:  # if file not exist will create userInformation.txt file and if file is empty will prompt user to add info
+    else:  # if file not exist will create userInformation.csv file and if file is empty will prompt user to add info
         print('There is nothing to view at the moment. Please store some information by pressing "1".')
-        new_file = open("userInformation.txt", "w")
+        new_file = open("userInformation.csv", "w")
         new_file.close()
 
 # run in a while loop until user want to quit by choosing option 3
