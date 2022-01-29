@@ -21,6 +21,7 @@ CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%
 
 # print APP welcome message
 print("Hello, Welcome to DigiCore Password Manager APP!")
+# print menu options
 print("Please choose from the following menu options:")
 
 
