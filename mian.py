@@ -29,8 +29,8 @@ def menu():
 
     try:  # use try, except to catch errors
         user_choice = input(
-            'Press "1" for Storing your "username", "password" and "URL".\nPress "2" for Viewing your "username", '
-            '"password" and "URL".\nPress "3" for Exit the program.\n')
+            'Press "1" for Storing your "username", "password" and "website".\nPress "2" for Viewing your "username", '
+            '"password" and "website".\nPress "3" for Exit the program.\n')
         if int(user_choice) == 1:
             record_info()  # call record_info function
         elif int(user_choice) == 2:
@@ -75,7 +75,7 @@ def record_info():
 def view_info():
     """"read csv file and display un-encrypted user information in a presentable way"""
     if os.path.exists("userInformation.csv") and os.stat("userInformation.csv").st_size > 0: # check if userInformation.csv file exist and not empty
-        
+
         try:  # use try, except to catach error: empty lines at the beginning of the csv file
             print(f"{'USERNAME':<20}{'PASSWORD':<20}{'URL':<20}")  # create a heading
             with open("userInformation.csv", "r") as data:
